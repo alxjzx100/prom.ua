@@ -11,7 +11,6 @@ namespace Alxjzx100\PromUa;
 use Exception;
 
 class PromUa {
-    //68a635740de6f2806f7e48756b06c81882630d55
     protected $apiKey;
     protected static $apiUrl = 'https://my.prom.ua/api/v1';
     protected $connectionType = 'curl';
