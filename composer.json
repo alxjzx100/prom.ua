@@ -1,0 +1,19 @@
+{
+    "name": "alxjzx100/prom.ua",
+    "description": "prom.ua API library",
+    "type": "library",
+    "license": "Apache-2.0",
+    "autoload": {
+        "psr-4": {
+            "Alxjzx100\\PromUa\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alex Pushnov",
+            "email": "alxjzx100@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
