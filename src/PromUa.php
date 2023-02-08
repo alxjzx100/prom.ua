@@ -10,7 +10,8 @@ namespace Alxjzx100\PromUa;
 
 use Exception;
 
-class PromUa {
+class PromUa
+{
     protected $apiKey;
     protected static $apiUrl = 'https://my.prom.ua/api/v1';
     protected $connectionType = 'curl';
@@ -20,29 +21,129 @@ class PromUa {
      */
     public function __construct(string $apiKey)
     {
-        if(!empty($apiKey)){
+        if (!empty($apiKey)) {
             $this->apiKey = $apiKey;
-        }else{
+        } else {
             throw new Exception("Api key is empty");
         }
     }
 
+    /**
+     * curl - default connection type. Any other string given will activate file_get_contents() method
+     * @param string $type
+     * @return $this
+     */
+    public function setConnectionType(string $type): PromUa
+    {
+        $this->connectionType = $type;
+        return $this;
+    }
+
+    /**
+     * Returns current connection type
+     * @return string
+     */
     public function getConnectionType(): string
     {
         return $this->connectionType;
     }
 
-    public function getOrders($params = null){
+    /**
+     * $params = ['status', 'date_from', 'date_to', 'last_modified_from', 'last_modified_to', 'limit', 'last_id']
+     * @param $params
+     * @return mixed
+     */
+    public function getOrders($params = null)
+    {
         $path = '/orders/list';
 
-        if($params !== null)
-            $path .= '?'.http_build_query($params);
+        if ($params !== null)
+            $path .= '?' . http_build_query($params);
 
         return $this->request($path);
     }
 
-    public function getOrder(int $id){
-        $path = '/orders/'.$id;
+    /**
+     * $params = array ['last_modified_from', 'last_modified_to', 'limit' , 'last_id', 'group_id']
+     * @param $params
+     * @return mixed
+     */
+    public function getProducts($params = null)
+    {
+        $path = '/products/list';
+
+        if ($params !== null)
+            $path .= '?' . http_build_query($params);
+
+        return $this->request($path);
+    }
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function getProduct(int $id)
+    {
+        $path = '/products/' . $id;
+
+        return $this->request($path);
+    }
+
+    /**
+     * @param string $id
+     * @return mixed
+     */
+    public function getProductByInteralId(string $id)
+    {
+        $path = '/products/by_external_id/' . urlencode($id);
+
+        return $this->request($path);
+    }
+
+    /**
+     * $params can be array ['limit' => int, 'last_id' => int, 'search_term' => string ]
+     * @param $params
+     * @return void
+     */
+    public function getClients($params = null)
+    {
+        $path = '/clients/list';
+
+        if ($params !== null)
+            $path .= '?' . http_build_query($params);
+
+        return $this->request($path);
+    }
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function getOrder(int $id)
+    {
+        $path = '/orders/' . $id;
+
+        return $this->request($path);
+    }
+
+    /**
+     * Return order statuses
+     * @return mixed
+     */
+    public function getOrderStatusList()
+    {
+        $path = '/order_status_options/list';
+
+        return $this->request($path);
+    }
+
+    /**
+     * Return delivery options list
+     * @return mixed
+     */
+    public function getDeliveryOptionsList()
+    {
+        $path = '/delivery_options/list';
 
         return $this->request($path);
     }
