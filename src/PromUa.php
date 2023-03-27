@@ -64,6 +64,7 @@ class PromUa
     }
 
     /**
+     * Список товаров.
      * $params = array ['last_modified_from', 'last_modified_to', 'limit' , 'last_id', 'group_id']
      * @param $params
      * @return mixed
@@ -90,10 +91,11 @@ class PromUa
     }
 
     /**
+     * Получить товар по внутреннему ID
      * @param string $id
      * @return mixed
      */
-    public function getProductByInteralId(string $id)
+    public function getProductByExternalId(string $id)
     {
         $path = '/products/by_external_id/' . urlencode($id);
 
@@ -146,6 +148,41 @@ class PromUa
         $path = '/delivery_options/list';
 
         return $this->request($path);
+    }
+
+    /**
+     * [
+     *  {
+     *      "id": "string", //Обязательно
+     *      "presence": "available",
+     *      "presence_sure": true,
+     *      "price": 0.00001,
+     *      "status": "on_display",
+     *      "prices": [
+     *          {
+     *              "price": 0,
+     *              "minimum_order_quantity": 0
+     *          }
+     *      ],
+     *      "discount": {
+     *          "value": 0,
+     *          "type": "amount",
+     *          "date_start": "string",
+     *          "date_end": "string"
+     *      },
+     *      "name": "string",
+     *      "keywords": "string",
+     *      "description": "string",
+     *      "quantity_in_stock": 0
+     *  }
+     * ]
+     * @param array $data
+     * @return mixed
+     */
+    public function editProductByExternalId(array $data)
+    {
+        $path = '/products/edit_by_external_id';
+        return $this->request($path, $data, "POST");
     }
 
     private function request(string $path, $params = null, string $method = "GET")
